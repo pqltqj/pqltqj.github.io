@@ -57,7 +57,6 @@
         loader.load('inu.mdl.gltf', function(gltf) {
             const model = gltf.scene;
 
-            // Apply 180° rotation on the X-axis to flip the doggo
             model.rotation.x = Math.PI;
             model.scale.set(0.015, 0.015, 0.015);
             model.position.set(10, -3, 0);
@@ -76,7 +75,7 @@
                 const randomIndex = Math.floor(Math.random() * sounds.length);
                 sounds[randomIndex].play();
             }
-            // Function to handle click events
+
             function onClick(event) {
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -84,14 +83,12 @@
 
                 const intersects = raycaster.intersectObject(model, true);
                 if (intersects.length > 0) {
-                    playRandomSound(); // Play the sound when the dog is clicked
+                    playRandomSound();
                 }
             }
 
-            // Add click event listener
             window.addEventListener('click', onClick);
 
-            // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
                 model.rotation.y += 0.01; // Rotate the model
@@ -101,7 +98,7 @@
             animate();
         });
 
-        camera.position.set(0, 0, 10); // Adjust camera
+        camera.position.set(0, 0, 10); // Adjust the camera
         
         // Handle window resizing
         window.addEventListener('resize', () => {
