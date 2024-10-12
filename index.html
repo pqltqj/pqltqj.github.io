@@ -15,7 +15,7 @@
 
         /* Background styling */
         body {
-            background-image: url('background.png'); /* Ensure the correct path is used */
+            background-image: url('background.png'); /* Ensure the correct path */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -27,8 +27,8 @@
             position: absolute;
             right: 0;
             bottom: 0;
-            width: 100vw; /* Full width of the viewport */
-            height: 100vh; /* Full height of the viewport */
+            width: 100vw;
+            height: 100vh;
         }
     </style>
 </head>
@@ -44,7 +44,7 @@
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight); // Set size to full window
+        renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('model-container').appendChild(renderer.domElement);
 
         // Add lighting
@@ -60,10 +60,14 @@
             const model = gltf.scene;
 
             // Scale the model down
-            model.scale.set(0.05, 0.05, 0.05); // Keep it small for full visibility
+            model.scale.set(0.03, 0.03, 0.03); // Make the model smaller
 
-            // Adjust positioning
-            model.position.set(0, -2, 0); // Adjust Y axis for centering
+            // Correct the orientation (Rotate the model upright)
+            model.rotation.x = Math.PI / 2; // Rotate 90 degrees on the X-axis to make it upright
+            model.rotation.z = Math.PI; // Rotate 180 degrees on the Z-axis if needed for proper alignment
+
+            // Position the model
+            model.position.set(0, -2, 0); // Adjust the Y-axis if needed for better placement
 
             // Add the model to the scene
             scene.add(model);
@@ -71,7 +75,7 @@
             // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
-                model.rotation.y += 0.01; // Rotate slowly
+                model.rotation.y += 0.01; // Slowly rotate the model for a nice effect
                 renderer.render(scene, camera);
             }
 
@@ -79,7 +83,7 @@
         });
 
         // Move the camera further back to see the full model
-        camera.position.set(0, 0, 10); // Adjust as needed to fit the model
+        camera.position.set(0, 0, 10); // Adjust camera for better view
 
         // Handle window resizing
         window.addEventListener('resize', () => {
