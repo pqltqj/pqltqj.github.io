@@ -15,7 +15,7 @@
 
         /* Background styling */
         body {
-            background-image: url('background.png'); /* Ensure you replace with the correct path */
+            background-image: url('background.png'); /* Ensure the correct path is used */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -27,8 +27,8 @@
             position: absolute;
             right: 0;
             bottom: 0;
-            width: 600px;
-            height: 600px;
+            width: 100vw; /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
         }
     </style>
 </head>
@@ -42,9 +42,9 @@
     <script>
         // Setup scene, camera, and renderer
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(600, 600);
+        renderer.setSize(window.innerWidth, window.innerHeight); // Set size to full window
         document.getElementById('model-container').appendChild(renderer.domElement);
 
         // Add lighting
@@ -56,35 +56,35 @@
 
         // Load the GLTF model
         const loader = new THREE.GLTFLoader();
-        loader.load('inu.mdl.gltf', function(gltf) {
+        loader.load('assets/inu.mdl.gltf', function(gltf) {
             const model = gltf.scene;
 
             // Scale the model down
-            model.scale.set(0.1, 0.1, 0.1); // Adjust the scale as needed
+            model.scale.set(0.05, 0.05, 0.05); // Keep it small for full visibility
 
             // Adjust positioning
-            model.position.set(0, -1.5, 0); // Lower the model for visibility
+            model.position.set(0, -2, 0); // Adjust Y axis for centering
 
-            // Add model to the scene
+            // Add the model to the scene
             scene.add(model);
 
             // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
-                model.rotation.y += 0.01; // Slowly rotate the model
+                model.rotation.y += 0.01; // Rotate slowly
                 renderer.render(scene, camera);
             }
 
             animate();
         });
 
-        // Adjust camera position
-        camera.position.set(0, 1, 5); // Move the camera back to fit the model
+        // Move the camera further back to see the full model
+        camera.position.set(0, 0, 10); // Adjust as needed to fit the model
 
         // Handle window resizing
         window.addEventListener('resize', () => {
-            const width = document.getElementById('model-container').clientWidth;
-            const height = document.getElementById('model-container').clientHeight;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
             renderer.setSize(width, height);
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
