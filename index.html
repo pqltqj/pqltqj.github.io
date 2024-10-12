@@ -59,15 +59,14 @@
         loader.load('inu.mdl.gltf', function(gltf) {
             const model = gltf.scene;
 
-            // Scale the model down
-            model.scale.set(0.03, 0.03, 0.03); // Make the model smaller
+            // Apply 180° rotation on the X-axis to flip it upright
+            model.rotation.x = Math.PI; // 180-degree rotation along the X-axis
 
-            // Correct the orientation (Rotate the model upright)
-            model.rotation.x = Math.PI / 2; // Rotate 90 degrees on the X-axis to make it upright
-            model.rotation.z = Math.PI; // Rotate 180 degrees on the Z-axis if needed for proper alignment
+            // Scale the model to a reasonable size
+            model.scale.set(0.01, 0.01, 0.01); // Smaller scale for better fit
 
             // Position the model
-            model.position.set(0, -2, 0); // Adjust the Y-axis if needed for better placement
+            model.position.set(0, -1.5, 0); // Adjust Y-axis to bring it into view
 
             // Add the model to the scene
             scene.add(model);
