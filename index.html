@@ -18,7 +18,7 @@
             background-image: url('background.png'); /* Replace with your actual path */
             background-size: cover; /* Ensure the background covers the entire screen */
             background-position: center; /* Center the background */
-            background-repeat: no-repeat; /* Prevents repeating the background */
+            background-repeat: no-repeat; /* Prevent repeating the background */
             background-attachment: fixed; /* Locks the background in place on scroll */
         }
 
@@ -27,8 +27,8 @@
             position: absolute;
             right: 0;
             bottom: 0;
-            width: 400px; /* Adjust size as needed */
-            height: 400px;
+            width: 500px; /* Increased the size of the container */
+            height: 500px;
         }
     </style>
 </head>
@@ -43,9 +43,9 @@
     <script>
         // Set up scene, camera, and renderer
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, 400 / 400, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, 500 / 500, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha for transparent background
-        renderer.setSize(400, 400); // Match the container size
+        renderer.setSize(500, 500); // Match the container size
         document.getElementById('model-container').appendChild(renderer.domElement);
 
         // Add ambient and directional lighting
@@ -58,14 +58,14 @@
 
         // Load the GLTF model
         const loader = new THREE.GLTFLoader();
-        loader.load('inu.mdl.gltf', function (gltf) {
+        loader.load('assets/inu.mdl.gltf', function (gltf) { // Update the path to the .gltf file here
             const model = gltf.scene;
 
             // Correct orientation if necessary
             model.rotation.x = Math.PI; // Rotate 180 degrees if upside down
 
             // Scale the model down to fit the container
-            model.scale.set(0.5, 0.5, 0.5);
+            model.scale.set(0.2, 0.2, 0.2); // Reduce the scale further to fit the viewport better
 
             // Position the model at the bottom-right corner
             model.position.set(1, -0.5, 0);
@@ -86,8 +86,8 @@
             animate();
         });
 
-        // Set initial camera position to fit the model in view
-        camera.position.set(0, 1, 3); // Adjust the camera to fit the model
+        // Set the camera position further back to see more of the model
+        camera.position.set(0, 1, 6); // Move the camera further back
 
         // Handle window resizing
         window.addEventListener('resize', () => {
