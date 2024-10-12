@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model Viewer with Background</title>
+    <title>3D Model Viewer</title>
 
     <style>
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Hide scrollbars */
+            overflow: hidden;
         }
 
         /* Background styling */
         body {
-            background-image: url('background.png'); /* Replace with your actual path */
-            background-size: cover; /* Ensure the background covers the entire screen */
-            background-position: center; /* Center the background */
-            background-repeat: no-repeat; /* Prevent repeating the background */
-            background-attachment: fixed; /* Locks the background in place on scroll */
+            background-image: url('background.png'); /* Ensure you replace with the correct path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         /* Container for the 3D model */
@@ -27,67 +27,59 @@
             position: absolute;
             right: 0;
             bottom: 0;
-            width: 500px; /* Increased the size of the container */
-            height: 500px;
+            width: 600px;
+            height: 600px;
         }
     </style>
 </head>
 <body>
-    <!-- Container for the 3D model -->
     <div id="model-container"></div>
 
-    <!-- Include Three.js and the GLTFLoader -->
+    <!-- Three.js and GLTFLoader -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
     <script>
-        // Set up scene, camera, and renderer
+        // Setup scene, camera, and renderer
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, 500 / 500, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha for transparent background
-        renderer.setSize(500, 500); // Match the container size
+        const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(600, 600);
         document.getElementById('model-container').appendChild(renderer.domElement);
 
-        // Add ambient and directional lighting
+        // Add lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 1);
         scene.add(ambientLight);
-
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-        directionalLight.position.set(5, 5, 5); // Position the directional light
+        directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
 
         // Load the GLTF model
         const loader = new THREE.GLTFLoader();
-        loader.load('inu.mdl.gltf', function (gltf) { // Update the path to the .gltf file here
+        loader.load('inu.mdl.gltf', function(gltf) {
             const model = gltf.scene;
 
-            // Correct orientation if necessary
-            model.rotation.x = Math.PI; // Rotate 180 degrees if upside down
+            // Scale the model down
+            model.scale.set(0.1, 0.1, 0.1); // Adjust the scale as needed
 
-            // Scale the model down to fit the container
-            model.scale.set(0.2, 0.2, 0.2); // Reduce the scale further to fit the viewport better
+            // Adjust positioning
+            model.position.set(0, -1.5, 0); // Lower the model for visibility
 
-            // Position the model at the bottom-right corner
-            model.position.set(1, -0.5, 0);
-
-            // Add the model to the scene
+            // Add model to the scene
             scene.add(model);
 
-            // Animation loop to slowly spin the model
+            // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
-
-                // Slowly rotate the model on the Y-axis
-                model.rotation.y += 0.01; // Control the rotation speed
-
-                renderer.render(scene, camera); // Render the scene with the camera
+                model.rotation.y += 0.01; // Slowly rotate the model
+                renderer.render(scene, camera);
             }
 
             animate();
         });
 
-        // Set the camera position further back to see more of the model
-        camera.position.set(0, 1, 6); // Move the camera further back
+        // Adjust camera position
+        camera.position.set(0, 1, 5); // Move the camera back to fit the model
 
         // Handle window resizing
         window.addEventListener('resize', () => {
