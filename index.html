@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model Viewer</title>
+    <title>Silent Hill 2</title>
 
     <style>
         html, body {
@@ -15,7 +15,7 @@
 
         /* Background styling */
         body {
-            background-image: url('background.png'); /* Ensure the correct path */
+            background-image: url('background.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -35,7 +35,6 @@
 <body>
     <div id="model-container"></div>
 
-    <!-- Three.js and GLTFLoader -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -59,31 +58,24 @@
         loader.load('inu.mdl.gltf', function(gltf) {
             const model = gltf.scene;
 
-            // Apply 180° rotation on the X-axis to flip it upright
-            model.rotation.x = Math.PI; // 180-degree rotation along the X-axis
-
-            // Scale the model up by 50% (1.5x the current size)
-            model.scale.set(0.015, 0.015, 0.015); // Increase scale by 50%
-
-            // Position the model more to the right and centered vertically
-            model.position.set(10, -3, 0); // Move to the right and center vertically
-
-            // Add the model to the scene
+            // Apply 180° rotation on the X-axis to flip the doggo
+            model.rotation.x = Math.PI;
+            model.scale.set(0.015, 0.015, 0.015);
+            model.position.set(10, -3, 0);
             scene.add(model);
 
             // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
-                model.rotation.y += 0.01; // Slowly rotate the model for a nice effect
+                model.rotation.y += 0.01; // Rotate the model
                 renderer.render(scene, camera);
             }
 
             animate();
         });
 
-        // Move the camera further back to see the full model
-        camera.position.set(0, 0, 10); // Adjust camera for better view
-
+        camera.position.set(0, 0, 10); // Adjust camera
+        
         // Handle window resizing
         window.addEventListener('resize', () => {
             const width = window.innerWidth;
