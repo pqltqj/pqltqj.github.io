@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silent Hill 2</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon-48x48.png" type="image/x-icon">
     
     <style>
         html, body {
@@ -64,6 +64,26 @@
             model.scale.set(0.015, 0.015, 0.015);
             model.position.set(10, -3, 0);
             scene.add(model);
+
+            const audio = new Audio('Silent_Hill_2_00152.wav');
+
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+
+            // Function to handle click events
+            function onClick(event) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+
+                const intersects = raycaster.intersectObject(model, true);
+                if (intersects.length > 0) {
+                    audio.play(); // Play the sound when the dog is clicked
+                }
+            }
+
+            // Add click event listener
+            window.addEventListener('click', onClick);
 
             // Animation loop
             function animate() {
