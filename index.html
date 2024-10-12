@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silent Hill 2</title>
-    <link rel="icon" href="favicon-48x48.png" type="image/x-icon">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
     
     <style>
         html, body {
@@ -14,7 +14,6 @@
             overflow: hidden;
         }
 
-        /* Background styling */
         body {
             background-image: url('background.png');
             background-size: cover;
@@ -23,7 +22,6 @@
             background-attachment: fixed;
         }
 
-        /* Container for the 3D model */
         #model-container {
             position: absolute;
             right: 0;
@@ -65,11 +63,19 @@
             model.position.set(10, -3, 0);
             scene.add(model);
 
-            const audio = new Audio('Silent_Hill_2_00152.wav');
+            const sounds = [
+                new Audio('Silent_Hill_2_00152.wav'),
+                new Audio('Silent_Hill_2_00153.wav'),
+                new Audio('Silent_Hill_2_00154.wav')
+            ];
 
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
 
+            function playRandomSound() {
+                const randomIndex = Math.floor(Math.random() * sounds.length);
+                sounds[randomIndex].play();
+            }
             // Function to handle click events
             function onClick(event) {
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -78,7 +84,7 @@
 
                 const intersects = raycaster.intersectObject(model, true);
                 if (intersects.length > 0) {
-                    audio.play(); // Play the sound when the dog is clicked
+                    playRandomSound(); // Play the sound when the dog is clicked
                 }
             }
 
