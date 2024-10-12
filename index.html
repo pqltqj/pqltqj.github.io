@@ -4,87 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Your Website</title>
+    <title>Heat Forge Technologies</title>
     
-    <!-- Link to an external CSS file if needed -->
     <style>
         /* This makes the whole page take up 100% of the width and height */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* Hide scrollbars */
             font-family: Arial, sans-serif;
         }
 
         /* Background image styling */
         body {
             background-image: url('background.png'); /* Path to your background image */
-            background-size: cover; /* Ensures the image covers the entire background */
-            background-position: center; /* Centers the background image */
-            background-repeat: no-repeat; /* Prevents the background from repeating */
-            background-attachment: fixed; /* Keeps the background fixed on scroll */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
-        /* Container for your content */
-        .content {
-            text-align: center;
-            color: white; /* Text color */
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%); /* Centers content vertically */
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5); /* Adds a dark overlay to make text more readable */
-            border-radius: 10px;
-        }
-
-        /* Floating image styling */
-        .floating-image {
+        /* Container for the 3D model */
+        #model-container {
             position: absolute;
-            right: 20px; /* Position on the right side of the screen */
-            bottom: 20px; /* Initial position from the bottom */
-            width: 150px; /* Adjust the size of the floating image */
-            animation: float 5s ease-in-out infinite; /* Apply the floating animation */
-        }
-
-        /* Keyframes for the floating animation */
-        @keyframes float {
-            0% {
-                transform: translateY(0); /* Initial position */
-            }
-            50% {
-                transform: translateY(-20px); /* Float up by 20px */
-            }
-            100% {
-                transform: translateY(0); /* Return to initial position */
-            }
+            right: 20px; /* Position on the right side */
+            bottom: 20px; /* Positioned near the bottom */
+            width: 300px; /* Width of the container */
+            height: 300px; /* Height of the container */
         }
 
         /* Responsive text styling */
         h1 {
             font-size: 2.5em;
             margin: 0;
+            color: white;
+            text-align: center;
         }
 
         p {
             font-size: 1.2em;
             margin: 10px 0;
+            color: white;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <!-- Main content goes here -->
-    <div class="content">
-        <h1>Welcome to My Website</h1>
-        <p>This is a sample website using GitHub Pages!</p>
-        <p>Feel free to customize this template.</p>
-    </div>
+    <!-- Main content -->
+    <h1>Welcome to My Website</h1>
+    <p>This is a sample website using GitHub Pages and a 3D Model!</p>
 
-    <!-- Floating image -->
-    <img src="floating-image.png" alt="Floating Image" class="floating-image">
+    <!-- 3D Model Container -->
+    <div id="model-container"></div>
 
-    <!-- Optional: Footer or additional elements -->
-    <footer style="text-align: center; padding: 10px; color: white;">
-        © 2024 Your Name
-    </footer>
+    <!-- Include Three.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Include GLTFLoader to load the 3D model -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
+        // Setup scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 300 / 300, 0.1, 1000); // Adjust the camera's aspect ratio to match container
+        const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha true to make background transparent
+        renderer.setSize(300, 300); // Size matches the container
+        document.getElementById('model-container').appendChild(renderer.domElement);
+
+        // Load the GLTF model
+        const loader = new THREE.GLTFLoader();
+        loader.load('inu.mdl.gltf', function (gltf) {
+            const model = gltf.scene;
+            model.scale.set(0.5, 0.5, 0.5); // Scale down the model
+            scene.add(model);
+
+            // Animate the model to float up and down
+            let floatingUp = true;
+            let positionY = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Apply the floating effect
+                if (floatingUp) {
+                    positionY += 0.005;
+                    if (positionY > 0.5) floatingUp = false;
+                } else {
+                    positionY -= 0.005;
+                    if (positionY < -0.5) floatingUp = true;
+                }
+                model.position.y = positionY; // Update model's Y position
+
+                // Rotate the model (optional)
+                model.rotation.y += 0.01;
+
+                // Render the scene
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        });
+
+        // Position the camera
+        camera.position.z = 2;
+
+    </script>
 </body>
 </html>
