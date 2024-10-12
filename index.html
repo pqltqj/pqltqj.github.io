@@ -1,7 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Your Website</title>
+    
+    <!-- Link to an external CSS file if needed -->
+    <style>
+        /* This makes the whole page take up 100% of the width and height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background image styling */
+        body {
+            background-image: url('background.jpg'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat; /* Prevents the background from repeating */
+            background-attachment: fixed; /* Keeps the background fixed on scroll */
+        }
+
+        /* Container for your content */
+        .content {
+            text-align: center;
+            color: white; /* Text color */
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%); /* Centers content vertically */
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5); /* Adds a dark overlay to make text more readable */
+            border-radius: 10px;
+        }
+
+        /* Floating image styling */
+        .floating-image {
+            position: absolute;
+            right: 20px; /* Position on the right side of the screen */
+            bottom: 20px; /* Initial position from the bottom */
+            width: 150px; /* Adjust the size of the floating image */
+            animation: float 5s ease-in-out infinite; /* Apply the floating animation */
+        }
+
+        /* Keyframes for the floating animation */
+        @keyframes float {
+            0% {
+                transform: translateY(0); /* Initial position */
+            }
+            50% {
+                transform: translateY(-20px); /* Float up by 20px */
+            }
+            100% {
+                transform: translateY(0); /* Return to initial position */
+            }
+        }
+
+        /* Responsive text styling */
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <!-- Main content goes here -->
+    <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>This is a sample website using GitHub Pages!</p>
+        <p>Feel free to customize this template.</p>
+    </div>
+
+    <!-- Floating image -->
+    <img src="floating-image.png" alt="Floating Image" class="floating-image">
+
+    <!-- Optional: Footer or additional elements -->
+    <footer style="text-align: center; padding: 10px; color: white;">
+        © 2024 Your Name
+    </footer>
 </body>
 </html>
